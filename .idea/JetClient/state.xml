@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="draftsState">
+      <draftsState>
+        <option name="requests">
+          <list>
+            <requestState>
+              <option name="auth">
+                <authState>
+                  <option name="type" value="BEARER" />
+                </authState>
+              </option>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;username&quot;: &quot;+26876911464&quot;, &#10;  &quot;password&quot;: &quot;stud&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="d99d580c-f2fe-476e-b519-5ded46d378fe" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft 4" />
+              <option name="url" value="http://localhost:8080/api/v1/auth/authenticate" />
+            </requestState>
+            <requestState>
+              <option name="auth">
+                <authState>
+                  <option name="type" value="BEARER" />
+                </authState>
+              </option>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{ &#10;  &quot;userName&quot;: &quot;+26876911464&quot;,&#10; &quot;momoName&quot;: &quot;Abx&quot;,&#10;  &quot;password&quot;: &quot;stud&quot;,&#10; &quot;email&quot;: &quot;email&quot;,&#10;  &quot;role&quot;:&quot;USER&quot; &#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="9075e677-d489-4850-b193-5f7237321797" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft" />
+              <option name="url" value="http://localhost:8080/api/v1/auth/register" />
+            </requestState>
+            <requestState>
+              <option name="auth">
+                <authState>
+                  <option name="bearer">
+                    <iI>
+                      <option name="token" value="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIrMjY4NzY5MTE0NjQiLCJpYXQiOjE2OTg0ODg2MDMsImV4cCI6MTY5ODU3NTAwM30.pEzoiI3DL08cfUlq0RohR3UrMfjLEH0qPNWXftIsb_s" />
+                    </iI>
+                  </option>
+                  <option name="type" value="BEARER" />
+                </authState>
+              </option>
+              <option name="id" value="e14bb77f-4c28-4371-88a6-e0b102963372" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft 1" />
+              <option name="url" value="http://localhost:8080/login" />
+            </requestState>
+          </list>
+        </option>
+      </draftsState>
+    </option>
+    <option name="id" value="83b44029-50c5-462d-9f48-f701cfa48a03" />
+  </component>
+</project>
