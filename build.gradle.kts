@@ -4,7 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 }
 springBoot {
-    mainClass.value("com.digibooklet.server.ServerApplication")
+    mainClass.value("com.digibooklet.ServerApplication")
 }
 
 group = "com.digibooklet"
