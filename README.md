@@ -10,8 +10,8 @@ The applications exposes the following enpoints support the following features
 ### BACKUP RELATED
 implement a full data backup of user's data  stored as zip files in server 
 ### USER RELATED 
--register user accounts 
--authenticate users 
+- register user accounts 
+- authenticate users 
 ## TECH-STACK 
 ### DATABASE 
 - [Postgres]https://www.postgresql.org/
