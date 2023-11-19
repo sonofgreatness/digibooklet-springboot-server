@@ -23,7 +23,10 @@ public class LoginController {
         return  "auth-login";
     }
 
-
+    @RequestMapping("/index")
+    public String landingPage(){
+        return  "index";
+    }
 
 
 

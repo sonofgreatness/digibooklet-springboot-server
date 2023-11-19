@@ -35,6 +35,8 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",
+            "/index",
+            "/"
     };
     private static final String[] WHITE_LIST_URL_RESOURCES = {
             "/images/**",
@@ -49,10 +51,10 @@ public class SecurityConfig {
                         rQ.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll());
+                .httpBasic(Customizer.withDefaults());
+                //.formLogin(form -> form
+                  //      .loginPage("/login")
+                    //    .permitAll());
 
         http.sessionManagement(
                 sessionAuthenticationStrategy ->
