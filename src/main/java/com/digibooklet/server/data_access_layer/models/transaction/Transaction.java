@@ -22,10 +22,9 @@ public class Transaction {
     private String customerName;
     private String customerId ;
     private String customerPhone;
+    private String time;
     private Boolean transactionType;
     private Float amount;
-
-
     @Lob
     private Byte[] signature;
 
@@ -34,17 +33,4 @@ public class Transaction {
     private User user;
 
 
-
-
-
-/*
-    @Override
-    public String toString(){
-        return  "transactionId = " +transactionId  +"timestamp  =" + timestamp
-                +"customername = "+ customerName + "\n"
-                +"customerId = "+customerId  + customerPhone + "\n"
-                +"transaction type  = "+transactionType+
-                "amount = " +amount +"Signature = "+ signature;
-    }
-*/
 }

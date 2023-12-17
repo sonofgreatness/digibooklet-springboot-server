@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(rQ ->
                         rQ.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .anyRequest().authenticated()
+
                 )
                 .httpBasic(Customizer.withDefaults());
                 //.formLogin(form -> form

@@ -7,10 +7,9 @@ import com.digibooklet.server.data_access_layer.repositories.TransactionReposito
 import com.digibooklet.server.data_access_layer.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.mapping.Any;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import java.util.List;
 @Service
 public class TransactionService {
 
+    public static final String TRANSACTION_ADDED_SUCCESSFULLY = "TRANSACTION ADDED SUCCESSFULLY";
     @Autowired
     private final UserRepository userRepository;
     private  final TransactionRepository transactionRepository;
@@ -33,7 +33,7 @@ public class TransactionService {
      * @param  request request used to build transaction
      * @throws Exception  if user not found or on failure to add  transaction to db
      */
-    public ResponseEntity<String> addTransaction(String username, TransactionRequest request) throws Exception
+    public String addTransaction(String username, TransactionRequest request) throws Exception
     {
 
 
@@ -51,18 +51,25 @@ public class TransactionService {
                     = Transaction.builder()
                     .transactionId(request.getTransactionId())
                     .timestamp(time)
+                    .time(request.getTime())
                     .customerPhone(request.getCustomerPhone())
                     .customerName(request.getCustomerName())
                     .customerId(request.getCustomerId())
                     .transactionType(request.getTransactionType())
                     .amount(request.getAmount())
                     .customerPhone(request.getCustomerPhone())
-                    .signature(request.getSignature())
+                    .signature(request
+                            .convertIntegerListToByteArray
+                                    (
+                                            request.getSignature()
+                                    )
+                    )
                     .user(user)
                     .build();
             transactionRepository.save(transaction);
 
-            return  ResponseEntity.ok("TRANSACTION ADDED SUCCESSFULLY");
+
+            return  TRANSACTION_ADDED_SUCCESSFULLY;
         }catch (Exception e ) {
              throw new Exception("FAILED TO ADD TRANSACTION"+e.getMessage());
         }
@@ -70,39 +77,38 @@ public class TransactionService {
 
 
     /**
-     *getAllTransactions -  gets all transactions  related to  a
-     *    user
-     * @param  username
-     * @return  List<Transaction>
+     * getAllTransactions -  gets all transactions  related to  a
+     * user
      *
+     * @param username
+     * @return List<Transaction>
      */
-    @Transactional
-    public ResponseEntity
+    public List<TransactionRequest>
     getAllTransactionsByUser(String username) throws Exception {
 
         try {
             List<TransactionRequest> transactions = new ArrayList<>();
 
-            Iterable<Transaction> alltransactions = transactionRepository.findAllValidTransactionByUser(username);
+            List<Transaction> allTransactions = transactionRepository.findAllValidTransactionByUser(username);
 
-            for (Transaction transaction : alltransactions) {
+            for (Transaction transaction : allTransactions) {
                 TransactionRequest temp = TransactionRequest.builder()
                         .transactionId(transaction.getTransactionId())
                         .timestamp(transaction.getTimestamp())
                         .amount(transaction.getAmount())
+                        .time(transaction.getTime())
                         .transactionType(transaction.getTransactionType())
                         .customerId(transaction.getCustomerId())
                         .customerName(transaction.getCustomerName())
-                        .signature(transaction.getSignature())
+                        .signature(convertByteArrayToList(transaction.getSignature()))//transaction.getSignature())
                         .customerPhone(transaction.getCustomerPhone())
                         .username(transaction.getUser().getUserName())
                         .build();
                 transactions.add(temp);
             }
             return
-                    ResponseEntity.ok(
-                        transactions
-                    );
+
+                        transactions;
 
         }
         catch (Exception e){
@@ -126,6 +132,14 @@ public class TransactionService {
 
     }
 
+    private static List<Integer> convertByteArrayToList(Byte[] byteArray) {
+        List<Integer> integerList = new ArrayList<>();
+        for (Byte b : byteArray) {
+            // Convert Byte to Integer
+            integerList.add((int) b);
+        }
+        return integerList;
+    }
 
 
 }

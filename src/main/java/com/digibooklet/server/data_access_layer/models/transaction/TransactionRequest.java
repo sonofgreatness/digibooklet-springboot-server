@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,8 +21,21 @@ public class TransactionRequest {
     private String customerId ;
     private String customerPhone;
     private Boolean transactionType;
+    private String time;
     private Float amount;
     private String username ;
-    private Byte[] signature;
+    private List<Integer> signature;
+    public  Byte[] convertIntegerListToByteArray(List<Integer> integerList) {
+        Byte[] byteArray = new Byte[integerList.size()];
 
+        for (int i = 0; i < integerList.size(); i++) {
+            // Convert Integer to byte
+            byte byteValue = integerList.get(i).byteValue();
+
+            // Convert byte to Byte
+            byteArray[i] = Byte.valueOf(byteValue);
+        }
+
+        return byteArray;
+    }
 }

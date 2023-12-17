@@ -25,7 +25,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	runtimeOnly("org.postgresql:postgresql")
+    testImplementation("org.projectlombok:lombok:1.18.22")
+	testImplementation("org.projectlombok:lombok:1.18.22")
+    testImplementation("junit:junit:4.13.1")
+    runtimeOnly("org.postgresql:postgresql")
+
+	testImplementation("com.h2database:h2")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation ("com.google.code.gson:gson:2.8.6")

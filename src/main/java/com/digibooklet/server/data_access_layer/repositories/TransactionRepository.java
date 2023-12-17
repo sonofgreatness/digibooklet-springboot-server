@@ -20,5 +20,6 @@ public interface TransactionRepository  extends JpaRepository<Transaction, Strin
       where u.user_name = :id\s
       """,  nativeQuery=true)
     List<Transaction> findAllValidTransactionByUser(String id);
+
 }
 
