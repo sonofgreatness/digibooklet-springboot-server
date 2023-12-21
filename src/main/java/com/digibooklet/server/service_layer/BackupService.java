@@ -4,12 +4,14 @@ import com.digibooklet.server.data_access_layer.models.backup.Backup;
 import com.digibooklet.server.data_access_layer.models.user.User;
 import com.digibooklet.server.data_access_layer.repositories.BackUpRepository;
 import com.digibooklet.server.data_access_layer.repositories.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -66,21 +68,22 @@ public class BackupService {
 
 
    /**
-    * gets the  backup file in  particular index position in
-    * list of all backup files ,  as filename = "backup.zip"
+    * gets the  backup file with  particular  id in
+    * list of all backup files  from db ,  as filename = "backup_db.zip"
     *
-    * @param index
+    * @param backupId
     * @param username
     * @return: zip file  downloadable
     **/
-    public ResponseEntity<byte[]>downloadBackUpFile(int index, String username) throws  Exception {
+   @Transactional
+    public ResponseEntity<byte[]>downloadBackUpFile(String username, String backupId) throws  Exception {
 
        try {
-           Backup document = backUpRepository.findAllValidBackupsByUser(username).get(index);
+           Backup document = backUpRepository.getSpecificBackup(username, backupId).get(0);
 
            return ResponseEntity.ok()
                    .contentType(MediaType.parseMediaType("application/zip"))
-                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "backup.zip" + "\"")
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "backup_db.zip" + "\"")
                    .body(document.getFile());
        }catch (Exception e) {
 
@@ -90,16 +93,31 @@ public class BackupService {
     }
 
 
+
+
     public  List<Backup> getAllBackUps() throws Exception
     {
         try{
-                return  backUpRepository.findAll();
+            return  backUpRepository.findAll();
         }
         catch (Exception e)
         {
             throw new Exception(e.getMessage());
         }
 
+    }
+
+    public String getAllBackUpDetailsForUser(String username) throws Exception
+    {
+        try{
+
+          String  result  = new ObjectMapper().writeValueAsString(backUpRepository.getBackupdetails(username));
+          return  result;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.getMessage());
+        }
     }
 
 

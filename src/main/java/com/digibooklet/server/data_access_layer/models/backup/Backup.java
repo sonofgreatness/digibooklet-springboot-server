@@ -26,6 +26,7 @@ public class Backup {
     private User user;
 
     @Lob
+    @Basic(fetch = FetchType.EAGER)
     private byte[] file;
 
     public String toString()

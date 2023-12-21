@@ -6,16 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BackUpRepository extends JpaRepository<Backup, String> {
-
-
-
-
-
-
-
-
 
     @Transactional
     @Query(value = """
@@ -32,13 +25,37 @@ public interface BackUpRepository extends JpaRepository<Backup, String> {
      * @param  id  The username   as stored in the user_data table
      * */
     @Query(value = """
-      SELECT  \s
-      (SELECT  backup_id  AS my_id FROM  backup_data \s 
-      WHERE timestamp =(SELECT MIN(timestamp) FROM backup_data )\s
-      AND user_id = :id
-      LIMIT 1
-      )\s
-      """,  nativeQuery=true)
-    Backup deleteOldestBackup(String id);
+           DELETE FROM backup_data\s
+            WHERE (user_id, timestamp)IN (\s
+              SELECT user_id, MIN(timestamp)\s
+                  FROM backup_data\s
+                  WHERE user_id = :id\s
+                  GROUP BY user_id);\s
+            """,  nativeQuery=true)
+    int deleteOldestBackup(String id);
+
+
+    /**
+     * retrieves  backup  records data for particular user
+     * @param  id  username in db
+     * @return   List<BackupSubDetail>
+     *        each POJO has two attributes -> backupId : String
+     *                                     -> timestamp : Timestamp
+     ***/
+    @Query(value = """
+           SELECT backup_id, timestamp
+            FROM\s
+            backup_data   WHERE user_id =:id\s
+            """,  nativeQuery=true)
+    List<Map<String, Object>> getBackupdetails(String id);
+
+    @Query(value = """
+           SELECT * FROM backup_data \s 
+           WHERE user_id =:id  AND backup_id =:itemId\s
+            """,  nativeQuery=true)
+    List<Backup> getSpecificBackup(String id, String itemId);
+
+
+
 
 }
